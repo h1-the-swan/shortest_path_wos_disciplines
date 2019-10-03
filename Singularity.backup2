@@ -23,23 +23,23 @@ From: archlinux/base
 		cgal cairomm python-cairo sparsehash cairomm   \
 		autoconf-archive pkg-config --noconfirm --needed
 
-  # export MAKEPKG_USER=mkpkg
-  # export MAKEPKG_GROUP=mkpkg
+  export MAKEPKG_USER=mkpkg
+  export MAKEPKG_GROUP=mkpkg
   export MAKEPKG_ROOT=/tmp/build
 
-  # groupadd "${MAKEPKG_USER}" \
-  #     && useradd -g "${MAKEPKG_GROUP}" "${MAKEPKG_USER}"
+  groupadd "${MAKEPKG_USER}" \
+      && useradd -g "${MAKEPKG_GROUP}" "${MAKEPKG_USER}"
 
-  # mkdir -p ${MAKEPKG_ROOT}; chown mkpkg:mkpkg ${MAKEPKG_ROOT}
-  mkdir -p ${MAKEPKG_ROOT}
+  # mkdir -p ${MAKEPKG_ROOT}
+  mkdir -p ${MAKEPKG_ROOT}; chown mkpkg:mkpkg ${MAKEPKG_ROOT}
 
   cd ${MAKEPKG_ROOT}
 
   # USER ${MAKEPKG_USER}
   curl -o PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=python-graph-tool
-  makepkg PKGBUILD --needed CXXFLAGS="-mtune=generic -O3 -pipe -flto=4 -ffunction-sections -fdata-sections" LDFLAGS="-Wl,--gc-sections"
+  chown ${MAKEPKG_USER}:${MAKEPKG_GROUP} PKGBUILD
+  sudo -u ${MAKEPKG_USER} makepkg PKGBUILD -f --needed CXXFLAGS="-mtune=generic -O3 -pipe -flto=4 -ffunction-sections -fdata-sections" LDFLAGS="-Wl,--gc-sections"
 
-  # USER root
   mv -v "${MAKEPKG_ROOT}/"python-graph-tool-*-x86_64.pkg.tar.xz /tmp/python-graph-tool.pkg.tar.xz
 
   # # Non-build
@@ -60,6 +60,6 @@ From: archlinux/base
 
   useradd -m -g users user
 
-  ENV PYTHONIOENCODING=utf8
+  export PYTHONIOENCODING=utf8
   # pip install -r requirements.txt
 

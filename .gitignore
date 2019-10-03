@@ -44,3 +44,5 @@ venv
 *.sif
 
 notebooks
+
+*.log
