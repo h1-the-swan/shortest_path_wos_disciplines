@@ -5,3 +5,5 @@ For a set of disciplines in WoS, calculate the pairwise shortest path citation d
 Use [Singularity](https://sylabs.io/singularity/) for containerization of python graph-tool and to run on HPC.
 
 First, clean the input data using [src/data/clean_samples.py](src/data/clean_samples.py).
+
+Next, convert to JSON using <src/data/make_json.py>.
