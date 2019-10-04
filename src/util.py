@@ -34,6 +34,40 @@ def get_unique_filename(basename='calc_times', ext='.csv', start_num=0, basedir=
             return fname
         i += 1
 
+def get_timestamp(res='seconds', dt=None):
+    """Get current timestamp as a string of integers
+
+    :res: resolution. one of:
+        'seconds' (default): date + time to the second, e.g., 201910040945,
+        'micro' or 'ms': date + time to the millisecond
+        'minute' or 'min': date + time to the minute, e.g., 2019100409,
+        'date': date, e.g., 20191004,
+        'month' or 'mo': date to the month, e.g., 201910
+    :dt: The default is to use the current date and time. If `dt` is specified (as a datetime object), use that instead.
+
+    """
+    fmt = "%Y%m"
+    res = res.lower()
+    if dt is None:
+        dt = datetime.now()
+    if res.startswith('mo'):
+        return datetime.strftime(dt, fmt)
+    fmt += "%d"
+    if res == 'date':
+        return datetime.strftime(dt, fmt)
+    fmt += "%H%M"
+    if res.startswith('min'):
+        return datetime.strftime(dt, fmt)
+    fmt += "%S"
+    if res.startswith('sec'):
+        return datetime.strftime(dt, fmt)
+    fmt += "%f"
+    if res.startswith('micro') or res.startswith('ms'):
+        return datetime.strftime(dt, fmt)
+    raise ValueError("Invalid value specified for 'res'")
+
+
+
 # def main(args):
 #     pass
 #
