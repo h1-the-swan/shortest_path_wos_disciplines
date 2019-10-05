@@ -48,7 +48,6 @@ def build_sample_set(samples, discipline_index):
             discipline_name = k
             ignore_mode = False
             source_ids = samples[k]['UID']
-            sample_ids.extend(source_ids)
 
         if ignore_mode is True:
             continue
@@ -102,7 +101,6 @@ def main(args):
     logger.debug("number of sample vertices: {}".format(len(vertices_sample)))
 
     for i, source in enumerate(vertices_source):
-        vertices_sample = vertices_sample[1:]
         this_start = timer()
         source_name = g.vp.name[source]
         outfname = "{:012d}.csv".format(i)  
@@ -114,9 +112,12 @@ def main(args):
         dist = shortest_distance(g, source=source, target=vertices_sample, directed=directed)
         this_time = timer() - this_start
         with open(outfname, 'w') as outf:
-            for x in dist:
-                outf.write("{}\n".format(x))
+            for i_dist, x in enumerate(dist):
+                # outf.write("{}\n".format(x))
+                outf.write("{source_name}{sep}{target_name}{sep}{distance}\n".format(sep=sep, source_name=source_name, target_name=source_ids[i_dist], distance=x))
         f_calc_times.write("{source_name}{sep}{calc_time}{sep}{distance_fname}\n".format(sep=sep, source_name=source_name, calc_time=this_time, distance_fname=os.path.basename(outfname)))
+        vertices_sample = vertices_sample[1:]  # vertices to process will shrink by one each time through the loop. FIFO.
+        source_ids = source_ids[1:]
 
     logger.debug("finished shortest path calculations. Took {}".format(format_timespan(timer()-start)))
     f_calc_times.close()
