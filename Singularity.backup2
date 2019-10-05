@@ -48,12 +48,17 @@ From: archlinux/base
   # echo 'Server=https://archive.archlinux.org/repos/2019/07/14/$repo/os/$arch' > /etc/pacman.d/mirrorlist
   #
   # COPY --from=builder /tmp/python-graph-tool.pkg.tar.xz /var/cache/pacman/pkg/python-graph-tool.pkg.tar.xz
+  # cp /tmp/python-graph-tool.pkg.tar.xz /var/cache/pacman/pkg/python-graph-tool.pkg.tar.xz
   #
   pacman -Sy archlinux-keyring --noconfirm
   pacman-key --refresh-keys
+  # pacman -Suy --noconfirm \
+  #  && pacman -U --noconfirm --noprogressbar --needed \
+  #     /var/cache/pacman/pkg/python-graph-tool.pkg.tar.xz \
+  #  && yes | pacman -Scc --noconfirm
   pacman -Suy --noconfirm \
    && pacman -U --noconfirm --noprogressbar --needed \
-      /var/cache/pacman/pkg/python-graph-tool.pkg.tar.xz \
+      /tmp/python-graph-tool.pkg.tar.xz \
    && yes | pacman -Scc --noconfirm
 
   pacman -S ipython gtk3 python-gobject python-matplotlib python-pandas jupyter-notebook mathjax python-cairocffi pandoc --noconfirm --needed

@@ -1,5 +1,7 @@
 # Calculate shortest path citation distance between pairs of disciplines in Web of Science (WoS)
 
+Jason Portenoy 2019
+
 For a set of disciplines in WoS, calculate the pairwise shortest path citation distance between them by calculating the average distance between a sample of papers from each discipline.
 
 Use [Singularity](https://sylabs.io/singularity/) for containerization of python graph-tool and to run on HPC.
@@ -35,3 +37,8 @@ for file in scripts/201910040930/calc_shortest_paths_discipline*.sh; do sbatch -
 ```
 
 (`$EMAIL` is an environment variable storing your email address. You will be notified when the job starts and ends.)
+
+
+##### TODO
+
++ Parallelize the distance calculations, after the graph data is loaded (using multiprocessing)

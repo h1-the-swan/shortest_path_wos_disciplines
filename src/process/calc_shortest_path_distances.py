@@ -2,7 +2,7 @@
 
 DESCRIPTION = """TODO: description"""
 
-import sys, os, time, json
+import sys, os, time, json, warnings
 from datetime import datetime
 from timeit import default_timer as timer
 try:
@@ -21,9 +21,14 @@ logger = logging.getLogger('__main__').getChild(__name__)
 from collections import OrderedDict
 import pandas as pd
 import numpy as np
-from .graph_tool_util import load_graph, get_name_to_vertices_dict
 from ..util import get_unique_filename
-from graph_tool.topology import shortest_distance
+
+try:
+    from .graph_tool_util import load_graph, get_name_to_vertices_dict
+    from graph_tool.topology import shortest_distance
+except ImportError:
+    warnings.warn("It seems that graph-tool is not installed in this environment. Some things may not work.")
+    
 
 def build_sample_set(samples, discipline_index):
     """collect the IDs to calculate distance on
