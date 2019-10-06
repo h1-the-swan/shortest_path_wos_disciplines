@@ -114,10 +114,10 @@ def main(args):
         with open(outfname, 'w') as outf:
             for i_dist, x in enumerate(dist):
                 # outf.write("{}\n".format(x))
-                outf.write("{source_name}{sep}{target_name}{sep}{distance}\n".format(sep=sep, source_name=source_name, target_name=source_ids[i_dist], distance=x))
+                outf.write("{source_name}{sep}{target_name}{sep}{distance}\n".format(sep=sep, source_name=source_name, target_name=sample_ids[i_dist], distance=x))
         f_calc_times.write("{source_name}{sep}{calc_time}{sep}{distance_fname}\n".format(sep=sep, source_name=source_name, calc_time=this_time, distance_fname=os.path.basename(outfname)))
         vertices_sample = vertices_sample[1:]  # vertices to process will shrink by one each time through the loop. FIFO.
-        source_ids = source_ids[1:]
+        sample_ids = sample_ids[1:]
 
     logger.debug("finished shortest path calculations. Took {}".format(format_timespan(timer()-start)))
     f_calc_times.close()

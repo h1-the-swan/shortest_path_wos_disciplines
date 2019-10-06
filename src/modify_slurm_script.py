@@ -43,7 +43,7 @@ def main(args):
     basedir = os.path.dirname(fname)
     for i in range(args.start, args.end+1):
         newtxt = re.sub(r"disc00", "disc{:02d}".format(i), txt)
-        newtxt = re.sub(r"data/processed/discipline000", "data/processed/discipline{:03d}".format(i), newtxt)
+        newtxt = re.sub(r"(data/processed.*?/)(discipline\d\d\d)", r"\1discipline{:03d}".format(i), newtxt)
         newtxt = re.sub(r"--discipline-index 0", "--discipline-index {}".format(i), newtxt)
         logfname = get_unique_log_filename(i, args.log_dir)
         # newtxt = re.sub(r"calc_shortest_path_distances_discipline000_", "calc_shortest_path_distances_discipline{:03d}_".format(i), newtxt)
