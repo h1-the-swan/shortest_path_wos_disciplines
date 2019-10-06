@@ -39,6 +39,25 @@ for file in scripts/201910040930/calc_shortest_paths_discipline*.sh; do sbatch -
 (`$EMAIL` is an environment variable storing your email address. You will be notified when the job starts and ends.)
 
 
+## Singularity
+
+Singularity is a containerization tool. It is good for shared supercomputers because, unlike Docker, it does not require admin/root privileges and does not give access to others' files.
+
+It does, however, require root privileges to build the images. Therefore, you should build on a system for which you have root privileges. This will output a (large) Singularity image file (`.sif`), which can be uploaded to a different system and used without root privileges.
+
+Images are built from a Singularity definition file (e.g., [./Singularity](./Singularity)). These can be built off of Docker containers. This is the case for the `./Singularity` definition file in this repo. There is an existing Docker image for `python-graph-tool`, which is used as the base for the image.
+
+```
+sudo singularity build graph_tool.sif ./Singularity
+```
+
+There is another alternative definition file: [./Singularity_custom](./Singularity_custom). This is basically copying the Dockerfile from the `python-graph-tool` Docker image, into Singularity format. (This takes a while to build.)
+
+```
+sudo singularity build graph_tool_custom.sif ./Singularity_custom
+```
+
+
 ##### TODO
 
 + Parallelize the distance calculations, after the graph data is loaded (using multiprocessing)
