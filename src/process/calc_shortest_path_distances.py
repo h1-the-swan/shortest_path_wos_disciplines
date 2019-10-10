@@ -107,15 +107,15 @@ def main(args):
         outfname = os.path.join(outdir, outfname)
         if os.path.exists(outfname):
             logger.debug("filename {} already exists. skipping.".format(outfname))
-            continue
-        logger.debug("calculating shortest distance for vertex: name: {}".format(source_name))
-        dist = shortest_distance(g, source=source, target=vertices_sample, directed=directed)
-        this_time = timer() - this_start
-        with open(outfname, 'w') as outf:
-            for i_dist, x in enumerate(dist):
-                # outf.write("{}\n".format(x))
-                outf.write("{source_name}{sep}{target_name}{sep}{distance}\n".format(sep=sep, source_name=source_name, target_name=sample_ids[i_dist], distance=x))
-        f_calc_times.write("{source_name}{sep}{calc_time}{sep}{distance_fname}\n".format(sep=sep, source_name=source_name, calc_time=this_time, distance_fname=os.path.basename(outfname)))
+        else:
+            logger.debug("calculating shortest distance for vertex: name: {}".format(source_name))
+            dist = shortest_distance(g, source=source, target=vertices_sample, directed=directed)
+            this_time = timer() - this_start
+            with open(outfname, 'w') as outf:
+                for i_dist, x in enumerate(dist):
+                    # outf.write("{}\n".format(x))
+                    outf.write("{source_name}{sep}{target_name}{sep}{distance}\n".format(sep=sep, source_name=source_name, target_name=sample_ids[i_dist], distance=x))
+            f_calc_times.write("{source_name}{sep}{calc_time}{sep}{distance_fname}\n".format(sep=sep, source_name=source_name, calc_time=this_time, distance_fname=os.path.basename(outfname)))
         vertices_sample = vertices_sample[1:]  # vertices to process will shrink by one each time through the loop. FIFO.
         sample_ids = sample_ids[1:]
 
