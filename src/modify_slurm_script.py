@@ -47,7 +47,7 @@ def main(args):
         newtxt = re.sub(r"--discipline-index 0", "--discipline-index {}".format(i), newtxt)
         logfname = get_unique_log_filename(i, args.log_dir)
         # newtxt = re.sub(r"calc_shortest_path_distances_discipline000_", "calc_shortest_path_distances_discipline{:03d}_".format(i), newtxt)
-        newtxt = re.sub(r"(>& )(.*?\.log)(\s)", r"\1{}\3".format(logfname), newtxt)
+        newtxt = re.sub(r"(--output=)(.*?\.log)(\s)", r"\1{}\3".format(logfname), newtxt)
         outfname = "calc_shortest_paths_discipline{:03d}_slurm.sh".format(i)
         with open(os.path.join(basedir, outfname), 'w') as outf:
             outf.write(newtxt)
