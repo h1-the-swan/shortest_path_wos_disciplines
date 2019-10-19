@@ -71,7 +71,7 @@ def yield_data_one_disc(discipline_dirs, samples):
 
 def load_all_data(discipline_dirs, samples_json_fname):
     samples = load_samples_json(samples_json_fname)
-    return pd.concat(x for x in yield_data_one_disc(discipline_dirs))
+    return pd.concat(x for x in yield_data_one_disc(discipline_dirs, samples))
 
 # def main(args):
 #     pass
